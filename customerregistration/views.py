@@ -23,7 +23,7 @@ class main_view(View):
 class customer_detail_view(View):
     template_name = 'detail.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        Customers = Customer.objects.get(id=kwargs['id'])
+        Customers = Customer.objects.get(id = kwargs['id'])
         context={
             'Customer': Customers,
         }

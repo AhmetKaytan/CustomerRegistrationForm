@@ -1,14 +1,22 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang = "en">
 <head>
-    <meta charset = "utf-8">
+    <meta charset = "utf-8" name = "viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}CustomerForm{% endblock %}</title>
+    <link rel = "stylesheet" href = "{% static 'css/bootstrap.min.css' %}">
 </head>
 <body>
-    <main>
-        {% block body %}
+    
+    {% include 'messages.html' %}
+
+    {% include 'header.html' %}
         
-        {% endblock %}
-    </main>
+    {% block body %}
+        
+    {% endblock %}
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    
 </body>
 </html>

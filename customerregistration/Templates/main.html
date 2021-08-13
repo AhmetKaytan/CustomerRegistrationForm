@@ -5,14 +5,6 @@
 {% block body %}
     {% if user.is_authenticated %}
 
-    {% if messages %}
-    <ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-    </ul>
-    {% endif %}
-
     Hi {{ user.username }}!<br>
 
     {% for Customer in Customers %}
@@ -23,9 +15,10 @@
         {{ Customer.phone_no }} <br>
         {{ Customer.city }} <br>
         {{ Customer.district }} <br>
+        {{Customer.registration_date}}<br>
     {% endfor %}
 
-    <p><a href = "{% url 'logout' %}">Log Out</a></p>
+    
     {% else %}
     <p>You are not logged in</p>
     <a href = "{% url 'login' %}">Log In</a>
