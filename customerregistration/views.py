@@ -1,28 +1,29 @@
-from typing import Any
-from django import forms, http
-from django.shortcuts import redirect, render, HttpResponse, HttpResponseRedirect
-from django.http import HttpResponse, request
+from django import  http
+from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.views import View
-from django.views.generic import TemplateView, View
+from django.contrib import messages
+from django.views.generic import  View
 from .models import Customer
 from .forms import CustomerForm
-from django.contrib import messages
+from typing import Any
+
+
 
 class login_view(View):
-    template_name='login.html'
+    template_name = 'login.html'
 
 
 class main_view(View):
-    template_name='main.html'
+    template_name = 'main.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        Customers=Customer.objects.all()
-        return render(request, 'main.html', {'Customers':Customers})
+        Customers = Customer.objects.all()
+        return render(request, 'main.html', {'Customers': Customers})
     
 
 class customer_detail_view(View):
-    template_name='detail.html'
+    template_name = 'detail.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        Customers= Customer.objects.get(id=kwargs['id'])
+        Customers = Customer.objects.get(id=kwargs['id'])
         context={
             'Customer': Customers,
         }
@@ -30,18 +31,18 @@ class customer_detail_view(View):
 
 
 class customer_create_view(View):
-    template_name='create.html'
+    template_name = 'create.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        form=CustomerForm()
+        form = CustomerForm()
         context={
-            'form':form,
+            'form': form,
         }
         return render(request, 'form.html', context)
 
     def post(self, request, *args, **kwargs):
-        form=CustomerForm(request.POST or None)
-        context={
-            'form':form,
+        form = CustomerForm(request.POST or None)
+        context = {
+            'form': form,
         }
         if form.is_valid():
             form.save()
@@ -52,32 +53,33 @@ class customer_create_view(View):
 
 
 class customer_update_view(View):
-    template_name='update.html'   
+    template_name = 'update.html'   
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        Customers= Customer.objects.get(id=kwargs['id'])
-        form=CustomerForm(request.POST or None, instance=Customers)
-        context={
-            'form':form
+        Customers = Customer.objects.get(id=kwargs['id'])
+        form = CustomerForm(request.POST or None, instance=Customers)
+        context = {
+            'form': form
         }
         return render(request, 'form.html', context)
 
     def post (self, request, *args, **kwargs):
-        Customers= Customer.objects.get(id=kwargs['id'])
-        form=CustomerForm(request.POST or None, instance=Customers)
+        Customers = Customer.objects.get(id=kwargs['id'])
+        form = CustomerForm(request.POST or None, instance=Customers)
         if form.is_valid():
             form.save()
             messages.success(request, "Customer updated successfully")
             return HttpResponseRedirect('/')
-        context={
-            'form':form
+        context = {
+            'form': form
         }
         return render(request, 'form.html', context)
 
 
 class customer_delete_view(View):
-    template_name='delete.html'
+    template_name = 'delete.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        Customers=Customer.objects.get(id=kwargs['id'])
+        Customers = Customer.objects.get(id = kwargs['id'])
         Customer.delete(Customers)
         messages.success(request, "Customer deleted successfully")
         return redirect('/')
+

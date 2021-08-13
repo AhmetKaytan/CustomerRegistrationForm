@@ -15,20 +15,20 @@
 
     Hi {{ user.username }}!<br>
 
-    {% for Customer in Customers%}
-        <a href="/detail/{{Customer.id}}">{{ Customer.id }} </a> <br>
-        <a href="/detail/{{Customer.id}}">{{ Customer.tc_no }} </a> <br>
-        <a href="/detail/{{Customer.id}}">{{ Customer.name }} </a> <br>
-        <a href="/detail/{{Customer.id}}">{{ Customer.surname }} </a> <br>
+    {% for Customer in Customers %}
+        <a href = "/detail/{{Customer.id}}">{{ Customer.id }} </a> <br>
+        <a href = "/detail/{{Customer.id}}">{{ Customer.tc_no }} </a> <br>
+        <a href = "/detail/{{Customer.id}}">{{ Customer.name }} </a> <br>
+        <a href = "/detail/{{Customer.id}}">{{ Customer.surname }} </a> <br>
         {{ Customer.phone_no }} <br>
         {{ Customer.city }} <br>
         {{ Customer.district }} <br>
-    {%endfor%}
+    {% endfor %}
 
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
+    <p><a href = "{% url 'logout' %}">Log Out</a></p>
     {% else %}
     <p>You are not logged in</p>
-    <a href="{% url 'login' %}">Log In</a>
+    <a href = "{% url 'login' %}">Log In</a>
     {% endif %}
 
 {% endblock %}
