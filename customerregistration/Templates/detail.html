@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer-Details{% endblock %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+
+    {{ Customer.id }} <br>
+    {{ Customer.tc_no }} <br>
+    {{ Customer.name }} <br>
+    {{ Customer.surname }} <br>
+    {{ Customer.phone_no }} <br>
+    {{ Customer.city }} <br>
+    {{ Customer.district }} <br>
+
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+    {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+    {% endif %}
+
+{% endblock %}
