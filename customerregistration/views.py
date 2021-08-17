@@ -1,4 +1,5 @@
 from django import  http
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models.query_utils import Q
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.views import View
@@ -19,6 +20,7 @@ class main_view(View):
     template_name = 'main.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.all()
+        #Searching
         query=request.GET.get('q')
         if query:
             Customers=Customers.filter(
@@ -31,6 +33,18 @@ class main_view(View):
             Q(district__icontains=query)
         ).distinct()
         return render(request, 'main.html', {'Customers': Customers})
+    def post(self, request, *args, **kwargs):
+        Customers = Customer.objects.all()
+        #Pagination
+        page_num=int(10)
+        paginator=Paginator(Customers,page_num)
+        page = request.POST.post('page')
+        try:
+            Customers = paginator.page(page)
+        except PageNotAnInteger:
+            Customers = paginator.page(1)
+        except EmptyPage:
+            Customers = paginator.page(paginator.num_pages)
     
 
 class customer_detail_view(View):

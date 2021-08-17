@@ -5,28 +5,44 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-
+    <br>
     <style>
-        table,tr,td{
+        table,tr,td,th{
             border: 1px solid black;
             border-collapse: collapse;
         }
         table{
-            width: 75%;
+            width: 50%;
             margin: 0 auto;
-            font-size: 1.5em;
+            font-size: 1.25em;
+        }
+        thead tr{
+            background: rgb(58, 94, 141);
+            color: white;
         }
         td{
             padding: 10px;
         }
+        tbody tr{
+            text-align:left;
+        }
+        tbody tr:nth-child(even){
+            background: #f2f2f2;
+        }
+        tbody tr:hover{
+            background: #ddd;
+        }
+        
     </style>
 
 
+    
     <table>
         <thead>
             <tr>
                 <th>Field</th>
                 <th>Info</th>
+
             </tr>
         </thead>
         <tbody>
@@ -63,7 +79,7 @@
             </tr>
         </tbody>
     </table>
-    <button type="button" >
+    <button type="button" class="Update_button" >
          
         <a href="/update/{{Customer.id}}">Update Customer</a>
     </button>

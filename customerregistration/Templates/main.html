@@ -5,8 +5,15 @@
 {% block body %}
     {% if user.is_authenticated %}
     
+        <br>
         <h3 style="text-align: center;" >Registered Customers</h3>
-        <p>Number of Customers seen in this page:</p>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="p">Pagination number:</label>
+            <input type="text" name="10" id="pagination_num"> 
+            <button type="submit">Paginate</button> <br> <br>
+        </form>
+        
 
 
 
@@ -71,15 +78,31 @@
             {% endfor %}
         </tbody>
 
-
-
-
     </table>
 
+    <br>
+    <div class="pagination">
+        <span class="step-links">
+            {% if Customer.has_previous %}
+                <a href="?page={{ Customer.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ Customer.number }} of {{ Customer.paginator.num_pages }}.
+            </span>
+    
+            {% if Customer.has_next %}
+                <a href="?page={{ Customer.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+
+    
     {% else %}
     <p>You are not logged in</p>
     <p>Please log in to continue</p>
     <a href = "{% url 'login' %}">Log In</a>
     {% endif %}
+
 
 {% endblock %}
