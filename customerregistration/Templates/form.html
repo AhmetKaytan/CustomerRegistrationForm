@@ -6,15 +6,17 @@
     {% if user.is_authenticated %}
     <form method = "POST">
         {% csrf_token %}
-    <h1>Form</h1>
+    <h3>Customer</h3>
     {{ form.as_p}}
-    <input type = "submit" value="Add Customer">
+    <input type = "submit" value="Save">
+    <input type="reset" value="Reset Form">
     </form>
 
-    <p><a href = "{% url 'logout' %}">Log Out</a></p>
+    
     
     {% else %}
     <p>You are not logged in</p>
+    <p>Please log in to continue</p>
     <a href = "{% url 'login' %}">Log In</a>
     {% endif %}
 {% endblock %}

@@ -1,21 +1,77 @@
 {% extends 'base.html' %}
 
-{% block title %}Customer-Details{% endblock %}
+{% block title %} {{Customer.name}} {{Customer.surname}} {% endblock %}
+
 
 {% block body %}
     {% if user.is_authenticated %}
 
-    {{ Customer.id }} <br>
-    {{ Customer.tc_no }} <br>
-    {{ Customer.name }} <br>
-    {{ Customer.surname }} <br>
-    {{ Customer.phone_no }} <br>
-    {{ Customer.city }} <br>
-    {{ Customer.district }} <br>
+    <style>
+        table,tr,td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        table{
+            width: 75%;
+            margin: 0 auto;
+            font-size: 1.5em;
+        }
+        td{
+            padding: 10px;
+        }
+    </style>
 
-    <p><a href = "{% url 'logout' %}">Log Out</a></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Info</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> Id Number: </td>
+                <td>{{ Customer.id }}</td>
+            <tr>
+                <td> TC Number: </td>
+                <td>{{ Customer.tc_no }} </td>
+            </tr>
+            <tr>
+                <td> Name: </td>
+                <td>{{ Customer.name }} </td>
+            </tr>
+            <tr>
+                <td> Surname: </td>
+                <td>{{ Customer.surname }} </td>
+            </tr>
+            <tr>
+                <td> Phone Number:</td>
+                <td>{{ Customer.phone_no }} </td>
+            </tr>
+            <tr>
+                <td> City: </td>
+                <td>{{ Customer.city }} </td>
+            </tr>
+            <tr>
+                <td> District: </td>
+                <td> {{ Customer.district }} </td>
+            </tr>
+            <tr>
+                <td> Registration Date:</td>
+                <td>{{Customer.registration_date}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" >
+         
+        <a href="/update/{{Customer.id}}">Update Customer</a>
+    </button>
+
+    
     {% else %}
     <p>You are not logged in</p>
+    <p>Please log in to continue</p>
     <a href = "{% url 'login' %}">Log In</a>
     {% endif %}
 

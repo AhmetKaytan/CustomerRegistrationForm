@@ -4,23 +4,81 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-
-    Hi {{ user.username }}!<br>
-
-    {% for Customer in Customers %}
-        <a href = "/detail/{{Customer.id}}">{{ Customer.id }} </a> <br>
-        <a href = "/detail/{{Customer.id}}">{{ Customer.tc_no }} </a> <br>
-        <a href = "/detail/{{Customer.id}}">{{ Customer.name }} </a> <br>
-        <a href = "/detail/{{Customer.id}}">{{ Customer.surname }} </a> <br>
-        {{ Customer.phone_no }} <br>
-        {{ Customer.city }} <br>
-        {{ Customer.district }} <br>
-        {{Customer.registration_date}}<br>
-    {% endfor %}
-
     
+        <h3 style="text-align: center;" >Registered Customers</h3>
+        <p>Number of Customers seen in this page:</p>
+
+
+
+    <style>
+        table,th,tr,td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        table{
+            width: 50%;
+            margin: 0 auto;
+            font-size: 1em;
+        }
+        th,td{
+            padding: 10px;
+        }
+        thead tr{
+            background: rgb(58, 94, 141);
+            color: white;
+        }
+        tbody tr{
+            text-align: center;
+        }
+        tbody tr:nth-child(even){
+            background: #f2f2f2;
+        }
+        tbody tr:hover{
+            background: #ddd;
+        }
+    </style>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id Number</th>
+                <th>Tc Number</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Phone Number</th>
+                <th>City</th>
+                <th>District</th>
+                <th>Registration Date</th>
+                <th>Update Customer</th>
+                <th>Delete Customer</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for Customer in Customers %}
+                <tr>
+                    <td> <a href = "/detail/{{Customer.id}}">{{ Customer.id }} </a> </td>
+                    <td> <a href = "/detail/{{Customer.id}}">{{ Customer.tc_no }} </a> </td>
+                    <td> <a href = "/detail/{{Customer.id}}">{{ Customer.name }} </a> </td>
+                    <td> <a href = "/detail/{{Customer.id}}">{{ Customer.surname }} </a> </td>
+                    <td> {{ Customer.phone_no }} </td>
+                    <td> {{ Customer.city }} </td>
+                    <td> {{ Customer.district }} </td>
+                    <td> {{Customer.registration_date}}</td>
+                    <td><a href="/update/{{Customer.id}}">Update Customer</a></td>
+                    <td> <a href="/delete/{{Customer.id}}">  Delete Customer  </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+
+
+
+    </table>
+
     {% else %}
     <p>You are not logged in</p>
+    <p>Please log in to continue</p>
     <a href = "{% url 'login' %}">Log In</a>
     {% endif %}
 

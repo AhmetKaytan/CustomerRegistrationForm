@@ -1,8 +1,10 @@
 from django import  http
+from django.db.models.query_utils import Q
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.views import View
 from django.contrib import messages
 from django.views.generic import  View
+from django.db.models import Q
 from .models import Customer
 from .forms import CustomerForm
 from typing import Any
@@ -17,6 +19,17 @@ class main_view(View):
     template_name = 'main.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.all()
+        query=request.GET.get('q')
+        if query:
+            Customers=Customers.filter(
+            Q(name__icontains=query) | 
+            Q(id__icontains=query) | 
+            Q(surname__icontains=query) | 
+            Q(tc_no__icontains=query)|
+            Q(phone_no__icontains=query)|
+            Q(city__icontains=query)|
+            Q(district__icontains=query)
+        ).distinct()
         return render(request, 'main.html', {'Customers': Customers})
     
 
