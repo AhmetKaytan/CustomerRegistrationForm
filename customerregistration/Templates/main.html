@@ -6,13 +6,19 @@
     {% if user.is_authenticated %}
     
         <br>
-        <h3 style="text-align: center;" >Registered Customers</h3>
         <form method="POST">
-            {% csrf_token %}
-            <label for="p">Pagination number:</label>
-            <input type="text" name="10" id="pagination_num"> 
-            <button type="submit">Paginate</button> <br> <br>
+            <select name="p" >
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="15">15</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+            </select>
+            <input type="submit" value="Submit">
         </form>
+        <br>
+        <h2 style="text-align: center;" >Registered Customers</h2>
+        <br>
         
 
 
@@ -81,21 +87,28 @@
     </table>
 
     <br>
-    <div class="pagination">
-        <span class="step-links">
-            {% if Customer.has_previous %}
-                <a href="?page={{ Customer.previous_page_number }}">previous</a>
-            {% endif %}
     
-            <span class="current">
-                Page {{ Customer.number }} of {{ Customer.paginator.num_pages }}.
-            </span>
-    
-            {% if Customer.has_next %}
-                <a href="?page={{ Customer.next_page_number }}">next</a>
-            {% endif %}
-        </span>
-    </div>
+    {% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
 
     
     {% else %}

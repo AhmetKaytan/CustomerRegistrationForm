@@ -32,6 +32,10 @@
         tbody tr:hover{
             background: #ddd;
         }
+        button{
+            background: rgb(119, 149, 189) ;
+            text-align: center;
+        }
         
     </style>
 
@@ -79,9 +83,10 @@
             </tr>
         </tbody>
     </table>
-    <button type="button" class="Update_button" >
+    
+    <button type="button" class="btn btn-success" role="button" >
          
-        <a href="/update/{{Customer.id}}">Update Customer</a>
+        <a style="color: white;" href="/update/{{Customer.id}}">Update Customer</a>
     </button>
 
     

@@ -1,13 +1,14 @@
 from django import  http
+from django.core import paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models.query_utils import Q
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.views import View
 from django.contrib import messages
-from django.views.generic import  View
+from django.views.generic import  View,ListView
 from django.db.models import Q
 from .models import Customer
-from .forms import CustomerForm
+from .forms import CustomerForm, paginationForm
 from typing import Any
 
 
@@ -16,11 +17,13 @@ class login_view(View):
     template_name = 'login.html'
 
 
-class main_view(View):
+class main_view(ListView):
     template_name = 'main.html'
+
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.all()
-        #Searching
+        paginate_by=5
+        # Searching
         query=request.GET.get('q')
         if query:
             Customers=Customers.filter(
@@ -32,20 +35,22 @@ class main_view(View):
             Q(city__icontains=query)|
             Q(district__icontains=query)
         ).distinct()
+
         return render(request, 'main.html', {'Customers': Customers})
-    def post(self, request, *args, **kwargs):
-        Customers = Customer.objects.all()
-        #Pagination
-        page_num=int(10)
-        paginator=Paginator(Customers,page_num)
-        page = request.POST.post('page')
+    """ def post(self, request, *args, **kwargs):
+        customer_list = Customer.objects.all()
+        paginate = request.POST.get('p')
+        paginator=Paginator(customer_list,paginate)
         try:
-            Customers = paginator.page(page)
+            customers = paginator.page(paginate)
         except PageNotAnInteger:
-            Customers = paginator.page(1)
+        # If page is not an integer, deliver first page.
+            customers = paginator.page(1)
         except EmptyPage:
-            Customers = paginator.page(paginator.num_pages)
-    
+        # If page is out of range (e.g. 9999), deliver last page of results.
+            customers = paginator.page(paginator.num_pages)
+        return render(request, 'main.html', ) """
+     
 
 class customer_detail_view(View):
     template_name = 'detail.html'
