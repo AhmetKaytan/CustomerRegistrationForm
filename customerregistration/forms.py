@@ -1,7 +1,7 @@
 from django import forms
 from django.db.models import fields
-from django.forms.widgets import Select
 from .models import Customer
+from django.core.exceptions import ValidationError
 
 
 class CustomerForm(forms.ModelForm):
@@ -12,10 +12,15 @@ class CustomerForm(forms.ModelForm):
             'tc_no', 'name', 'surname',
             'phone_no', 'city', 'district'
         ]
+        
+    def clean(self):
+        cleaned_data=super().clean()
+        data_tc_no=cleaned_data.get('tc_no')
+        data_phone_no=cleaned_data.get('phone_no')
 
-class paginationForm(forms.Form):
-    choices = [
-        '3', '5', '15',
-        '25', '50'
-    ]
-    select=forms.ChoiceField(widget=forms.Select(choices=choices))
+        if data_phone_no and data_tc_no:
+            if (len(data_tc_no) != 11 
+            or len(data_phone_no) != 11):
+                raise forms.ValidationError("Info is incorrect")
+        else:
+            return None

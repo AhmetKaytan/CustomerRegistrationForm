@@ -1,5 +1,4 @@
 from django import  http
-from django.core import paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models.query_utils import Q
 from django.shortcuts import redirect, render, HttpResponseRedirect
@@ -8,7 +7,7 @@ from django.contrib import messages
 from django.views.generic import  View,ListView
 from django.db.models import Q
 from .models import Customer
-from .forms import CustomerForm, paginationForm
+from .forms import CustomerForm
 from typing import Any
 
 
@@ -19,10 +18,12 @@ class login_view(View):
 
 class main_view(ListView):
     template_name = 'main.html'
-
+    paginate_by='p'
+    model=Customer
+        
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.all()
-        paginate_by=5
+        
         # Searching
         query=request.GET.get('q')
         if query:
@@ -34,22 +35,19 @@ class main_view(ListView):
             Q(phone_no__icontains=query)|
             Q(city__icontains=query)|
             Q(district__icontains=query)
-        ).distinct()
+            ).distinct()
+        paginator=Paginator(Customers,3)
+        page_number= request.GET.get('p')
+        page_obj=paginator.get_page(page_number)
 
-        return render(request, 'main.html', {'Customers': Customers})
-    """ def post(self, request, *args, **kwargs):
-        customer_list = Customer.objects.all()
-        paginate = request.POST.get('p')
-        paginator=Paginator(customer_list,paginate)
-        try:
-            customers = paginator.page(paginate)
-        except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-            customers = paginator.page(1)
-        except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-            customers = paginator.page(paginator.num_pages)
-        return render(request, 'main.html', ) """
+        return render(request, 'main.html', {'Customers': Customers, 'page_obj':page_obj })
+
+    """ def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
+        customer_list=Customer.objects.all()
+        paginator=Paginator(customer_list,3)
+        page_number= request.GET.get('page')
+        page_obj=paginator.get_page(page_number)
+        return render(request, 'main.html', {'page_obj':page_obj}) """
      
 
 class customer_detail_view(View):

@@ -3,50 +3,26 @@
 {% block title %}Customer-Form{% endblock %}
 
 {% block body %}
-    {% if user.is_authenticated %}
-    <style>
-        
-
-    </style>
+{% if user.is_authenticated %}
 
 
-    <form method = "POST" style="width: 25%;">
-        {% csrf_token %}
+
+<form method="POST" style="width: 25%;">
+    {% csrf_token %}
     <h3>Customer</h3>
-    
     <div class="form-group">
-        <label for="tc_no">TC Number:</label>
-        <input type="text" class="form-control" placeholder="Please enter TC Number of Customer" id="tc_no">
+        {{form.as_p}}
     </div>
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" class="form-control" placeholder="Please enter name of customer" id="name">
-    </div>
-    <div>
-        <label for="surname">Surname:</label>
-        <input type="text" class="form-control" placeholder="Please enter surname of customer" id="surname">
-    </div>
-    <div>
-        <label for="phone_no">Phone Number:</label>
-        <input type="text" class="form-control" placeholder="Please enter Phone Number of customer" id="phone_no">
-    </div>
-    <div>
-        <label for="city">City:</label>
-        <input type="text" class="form-control" placeholder="Please enter city" id="city">
-    </div>
-    <div>
-        <label for="district">District:</label>
-        <input type="text" class="form-control" placeholder="Please enter district" id="district">
-    </div>
-    <input class="btn btn-success" type = "submit" value="Save">
+    <br>
+    <input class="btn btn-success" type="submit" value="Save">
     <input class="btn btn-secondary" type="reset" value="Reset Form">
-    </form>
+</form>
 
-    
-    
-    {% else %}
-    <p>You are not logged in</p>
-    <p>Please log in to continue</p>
-    <a href = "{% url 'login' %}">Log In</a>
-    {% endif %}
+
+
+{% else %}
+<p>You are not logged in</p>
+<p>Please log in to continue</p>
+<a href="{% url 'login' %}">Log In</a>
+{% endif %}
 {% endblock %}
