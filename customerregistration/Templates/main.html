@@ -5,8 +5,7 @@
 {% block body %}
 {% if user.is_authenticated %}
 
-<br>
-<form method="POST">
+<form method="POST" style="position: absolute; right: 10px;">
     {% csrf_token %}
     <label for="p">Pagination:</label>
     <select name="p">
@@ -18,9 +17,9 @@
     </select>
     <input type="submit" value="Submit">
 </form>
-<br>
+
 <h2 style="text-align: center;">Registered Customers</h2>
-<br>
+
 
 <table class="table table-striped table-bordered table-hover">
     <caption>List of Customers</caption>
@@ -58,7 +57,7 @@
 
 </table>
 
-<br>
+
 
 {% if is_paginated %}
 <ul class="pagination">

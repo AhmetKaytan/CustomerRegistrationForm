@@ -25,9 +25,9 @@ class main_view(ListView):
         Customers = Customer.objects.all()
         
         # Searching
-        query=request.GET.get('q')
+        query = request.GET.get('q')
         if query:
-            Customers=Customers.filter(
+            Customers = Customers.filter(
             Q(name__icontains=query) | 
             Q(id__icontains=query) | 
             Q(surname__icontains=query) | 
@@ -36,9 +36,9 @@ class main_view(ListView):
             Q(city__icontains=query)|
             Q(district__icontains=query)
             ).distinct()
-        paginator=Paginator(Customers,3)
-        page_number= request.GET.get('p')
-        page_obj=paginator.get_page(page_number)
+        paginator  = Paginator(Customers, 3)
+        page_number = request.GET.get('p')
+        page_obj = paginator.get_page(page_number)
 
         return render(request, 'main.html', {'Customers': Customers, 'page_obj':page_obj })
 
@@ -54,7 +54,7 @@ class customer_detail_view(View):
     template_name = 'detail.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.get(id = kwargs['id'])
-        context={
+        context = {
             'Customer': Customers,
         }
         return render(request, 'detail.html', context)
@@ -64,7 +64,7 @@ class customer_create_view(View):
     template_name = 'create.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         form = CustomerForm()
-        context={
+        context = {
             'form': form,
         }
         return render(request, 'form.html', context)
@@ -93,8 +93,8 @@ class customer_update_view(View):
         return render(request, 'form.html', context)
 
     def post (self, request, *args, **kwargs):
-        Customers = Customer.objects.get(id=kwargs['id'])
-        form = CustomerForm(request.POST or None, instance=Customers)
+        Customers = Customer.objects.get(id = kwargs['id'])
+        form = CustomerForm(request.POST or None, instance = Customers)
         if form.is_valid():
             form.save()
             messages.success(request, "Customer updated successfully")
