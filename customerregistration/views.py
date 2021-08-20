@@ -13,11 +13,11 @@ from .forms import CustomerForm
 
 default_paginate = 6
 
-class login_view(View):
+class loginView(View):
     template_name = 'login.html'
 
 
-class main_view(ListView):
+class mainView(ListView):
     template_name = 'main.html'
    
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
@@ -47,7 +47,7 @@ class main_view(ListView):
         return render(request, 'main.html', context)        
 
      
-class customer_detail_view(View):
+class customerDetailView(View):
     template_name = 'detail.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.get(id = kwargs['id'])
@@ -57,7 +57,7 @@ class customer_detail_view(View):
         return render(request, 'detail.html', context)
 
 
-class customer_create_view(View):
+class customerCreateView(View):
     template_name = 'create.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         form = CustomerForm()
@@ -79,7 +79,7 @@ class customer_create_view(View):
         return render(request, 'form.html', context)
 
 
-class customer_update_view(View):
+class customerUpdateView(View):
     template_name = 'update.html'   
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.get(id=kwargs['id'])
@@ -102,7 +102,7 @@ class customer_update_view(View):
         return render(request, 'form.html', context)
 
 
-class customer_delete_view(View):
+class customerDeleteView(View):
     template_name = 'delete.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.get(id = kwargs['id'])
