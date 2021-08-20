@@ -6,11 +6,12 @@ from django.views import View
 from django.contrib import messages
 from django.views.generic import  View,ListView
 from django.db.models import Q
-from .models import Customer
-from .forms import CustomerForm
 from typing import Any
 
+from .models import Customer
+from .forms import CustomerForm
 
+default_paginate=6
 
 class login_view(View):
     template_name = 'login.html'
@@ -18,11 +19,14 @@ class login_view(View):
 
 class main_view(ListView):
     template_name = 'main.html'
-    paginate_by='p'
-    model=Customer
-        
+   
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.all()
+        customer_list=Customer.objects.all()
+        paginator=Paginator(customer_list,default_paginate)
+
+        page_number=request.GET.get('page')
+        page_obj=paginator.get_page(page_number)
         
         # Searching
         query = request.GET.get('q')
@@ -36,18 +40,13 @@ class main_view(ListView):
             Q(city__icontains=query)|
             Q(district__icontains=query)
             ).distinct()
-        paginator  = Paginator(Customers, 3)
-        page_number = request.GET.get('p')
-        page_obj = paginator.get_page(page_number)
 
-        return render(request, 'main.html', {'Customers': Customers, 'page_obj':page_obj })
+        context={
+                'Customers' : page_obj
+            }
 
-    """ def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        customer_list=Customer.objects.all()
-        paginator=Paginator(customer_list,3)
-        page_number= request.GET.get('page')
-        page_obj=paginator.get_page(page_number)
-        return render(request, 'main.html', {'page_obj':page_obj}) """
+        return render(request, 'main.html', context)        
+
      
 
 class customer_detail_view(View):
