@@ -11,12 +11,12 @@
 <body>
     <div>
         <div style="justify-content: center; align-items: center; text-align: center; margin-top: 250px;">
-        <form method="post" style="border: 2px solid black; width: 400px; margin-left: 550px;" >
-            <h1>Log in</h1>
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" style="background-color: green; color: white; font-size: 20px;">Log In</button>
-        </form>
+            <form method="post" style="border: 2px solid black; width: 400px; margin-left: 550px;">
+                <h1>Log in</h1>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" style="background-color: green; color: white; font-size: 20px;">Log In</button>
+            </form>
         </div>
     </div>
 </body>

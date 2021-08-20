@@ -1,5 +1,5 @@
 from django import  http
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 from django.db.models.query_utils import Q
 from django.shortcuts import redirect, render, HttpResponseRedirect
 from django.views import View
@@ -11,7 +11,7 @@ from typing import Any
 from .models import Customer
 from .forms import CustomerForm
 
-default_paginate=6
+default_paginate = 6
 
 class login_view(View):
     template_name = 'login.html'
@@ -22,11 +22,11 @@ class main_view(ListView):
    
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.all()
-        customer_list=Customer.objects.all()
-        paginator=Paginator(customer_list,default_paginate)
+        customer_list = Customer.objects.all()
+        paginator = Paginator(customer_list,default_paginate)
 
-        page_number=request.GET.get('page')
-        page_obj=paginator.get_page(page_number)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
         
         # Searching
         query = request.GET.get('q')
@@ -41,14 +41,12 @@ class main_view(ListView):
             Q(district__icontains=query)
             ).distinct()
 
-        context={
+        context = {
                 'Customers' : page_obj
             }
-
         return render(request, 'main.html', context)        
 
      
-
 class customer_detail_view(View):
     template_name = 'detail.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
