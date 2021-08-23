@@ -23,7 +23,7 @@ class mainView(ListView):
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
         Customers = Customer.objects.all()
         customer_list = Customer.objects.all()
-        paginator = Paginator(customer_list,default_paginate)
+        paginator = Paginator(customer_list, default_paginate)
 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
