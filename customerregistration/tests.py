@@ -1,15 +1,14 @@
-from django.http import response
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-from customerregistration.models import Customer
-from customerregistration.forms import CustomerForm
+from customerregistration.models import customer
+from customerregistration.forms import customerForm
 
 class customerFieldTest(TestCase):
 
     def setUp(self) -> None:
-        self.Customer= Customer(tc_no = '01234567891', name = 'Ahmet', surname = 'Kaytan', 
+        self.Customer= customer(tc_no = '01234567891', name = 'Ahmet', surname = 'Kaytan', 
         phone_no = '05055320023', city = 'İzmir', district = 'Karabağlar')
     
     def test_field_tc(self):
@@ -48,7 +47,7 @@ class mainPageTest(TestCase):
 class detailCustomerPageTest():
 
     def setUp(self) -> None:
-        self.Customer= Customer(tc_no = '01234567891', name = 'Ahmet', surname = 'Kaytan', 
+        self.Customer= customer(tc_no = '01234567891', name = 'Ahmet', surname = 'Kaytan', 
         phone_no = '05055320023', city = 'İzmir', district = 'Karabağlar')
 
     def test_detail_customer_page_status_code(self):
@@ -66,19 +65,19 @@ class detailCustomerPageTest():
 
 
 class newCustomerFormTest(TestCase):
-    
+
     def test_valid_data(self):
         data = {'tc_no':'01234567891', 'name':'Ahmet', 'surname':'Kaytan', 'phone_no':'05055320023', 'city':'İzmir', 'district':'Karabağlar'}
-        form = CustomerForm(data=data)
+        form = customerForm(data=data)
         self.assertTrue(form.is_valid())
 
     def test_blank_data(self):
-        form = CustomerForm({'name':'Ahmet', 'surname':'Kaytan', 'phone_no':'05055320023', 'city':'İzmir', 'district':'Karabağlar'})
+        form = customerForm({'name':'Ahmet', 'surname':'Kaytan', 'phone_no':'05055320023', 'city':'İzmir', 'district':'Karabağlar'})
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {'tc_no' : ['This field is necessary']})
 
     def test_form_error(self):
-        form = CustomerForm({'tc_no':'0', 'name':'Ahmet', 'surname':'Kaytan', 'phone_no':'05055320023', 'city':'İzmir', 'district':'Karabağlar'})
+        form = customerForm({'tc_no':'0', 'name':'Ahmet', 'surname':'Kaytan', 'phone_no':'05055320023', 'city':'İzmir', 'district':'Karabağlar'})
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {'__all__': ['Information is incorrect!']})
 

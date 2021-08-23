@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import Customer
+from .models import customer
 
-class FormAdmin (admin.ModelAdmin):
+class formAdmin (admin.ModelAdmin):
 
     list_display = ['tc_no', 'name', 'surname', 'phone_no', 'city', 'district', 'registration_date']
     search_fields = ['id', 'tc_no', 'name', 'surname', 'phone_no', 'city', 'district']
 
     class Meta:
-        model = Customer
+        model = customer
 
-admin.site.register(Customer, FormAdmin)
+admin.site.register(customer, formAdmin)

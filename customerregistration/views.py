@@ -8,8 +8,8 @@ from django.views.generic import  View,ListView
 from django.db.models import Q
 from typing import Any
 
-from .models import Customer
-from .forms import CustomerForm
+from .models import customer
+from .forms import customerForm
 
 default_paginate = 6
 
@@ -21,8 +21,8 @@ class mainView(ListView):
     template_name = 'main.html'
    
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        Customers = Customer.objects.all()
-        customer_list = Customer.objects.all()
+        Customers = customer.objects.all()
+        customer_list = customer.objects.all()
         paginator = Paginator(customer_list, default_paginate)
 
         page_number = request.GET.get('page')
@@ -50,7 +50,7 @@ class mainView(ListView):
 class customerDetailView(View):
     template_name = 'detail.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        Customers = Customer.objects.get(id = kwargs['id'])
+        Customers = customer.objects.get(id = kwargs['id'])
         context = {
             'Customer': Customers,
         }
@@ -60,14 +60,14 @@ class customerDetailView(View):
 class customerCreateView(View):
     template_name = 'create.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        form = CustomerForm()
+        form = customerForm()
         context = {
             'form': form,
         }
         return render(request, 'form.html', context)
 
     def post(self, request, *args, **kwargs):
-        form = CustomerForm(request.POST or None)
+        form = customerForm(request.POST or None)
         context = {
             'form': form,
         }
@@ -82,16 +82,16 @@ class customerCreateView(View):
 class customerUpdateView(View):
     template_name = 'update.html'   
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        Customers = Customer.objects.get(id=kwargs['id'])
-        form = CustomerForm(request.POST or None, instance=Customers)
+        Customers = customer.objects.get(id=kwargs['id'])
+        form = customerForm(request.POST or None, instance=Customers)
         context = {
             'form': form
         }
         return render(request, 'form.html', context)
 
     def post (self, request, *args, **kwargs):
-        Customers = Customer.objects.get(id = kwargs['id'])
-        form = CustomerForm(request.POST or None, instance = Customers)
+        Customers = customer.objects.get(id = kwargs['id'])
+        form = customerForm(request.POST or None, instance = Customers)
         if form.is_valid():
             form.save()
             messages.success(request, "Customer updated successfully")
@@ -105,8 +105,8 @@ class customerUpdateView(View):
 class customerDeleteView(View):
     template_name = 'delete.html'
     def get(self, request: http.HttpRequest, *args: Any, **kwargs: Any) -> http.HttpResponse:
-        Customers = Customer.objects.get(id = kwargs['id'])
-        Customer.delete(Customers)
+        Customers = customer.objects.get(id = kwargs['id'])
+        customer.delete(Customers)
         messages.success(request, "Customer deleted successfully")
         return redirect('/')
 

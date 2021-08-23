@@ -2,7 +2,7 @@ from django.db import models
 
 
 
-class Customer(models.Model):
+class customer(models.Model):
 
     tc_no = models.CharField(unique = True, max_length = 11)
     name = models.CharField(max_length = 100)
